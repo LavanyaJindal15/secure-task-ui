@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Task Manager</title>
+</head>
+<body>
+
+<h2>Create Task</h2>
+
+<form th:action="@{/tasks}" th:object="${taskForm}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    Title:
+    <input type="text" th:field="*{title}" required />
+    <br><br>
+
+    Description:
+    <input type="text" th:field="*{description}" />
+    <br><br>
+
+    Completed:
+    <input type="checkbox" th:field="*{completed}" />
+    <br><br>
+
+    <button type="submit">Save Task</button>
+</form>
+
+<h2>Tasks</h2>
+
+<table border="1">
+<tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Completed</th>
+    <th>Edit</th>
+    <th>Delete</th>
+</tr>
+
+<tr th:each="t : ${tasks}">
+    <td th:text="${t.title}"></td>
+    <td th:text="${t.description}"></td>
+    <td th:text="${t.completed}"></td>
+
+    <td>
+        <a th:href="@{'/tasks/' + ${t.id} + '/edit'}">Edit</a>
+    </td>
+
+    <td>
+        <form th:action="@{'/tasks/' + ${t.id} + '/delete'}" method="post">
+            <button type="submit">Delete</button>
+        </form>
+    </td>
+</tr>
+
+</table>
+
+</body>
+</html>
